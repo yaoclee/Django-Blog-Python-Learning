@@ -68,7 +68,7 @@ INSTALLED_APPS = [
 
 # Django Suit configuration
 SUIT_CONFIG = {
-    'ADMIN_NAME': 'Python Learning',
+    'ADMIN_NAME': '西门飘雪',
     'SEARCH_URL': '/admin/blog/post/',
     'MENU': (
         {'app': 'blog', 'label': 'Blog', 'models': ('post', 'tag', 'page', 'author', 'gallery', 'visitor'),
@@ -114,14 +114,12 @@ WSGI_APPLICATION = 'blogproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-"""
 
 # Config with postgresql - psql (9.5.4, server 9.3.14)
 # $ sudo su - postgres
@@ -130,7 +128,7 @@ DATABASES = {
 # postgres=# CREATE USER database_user WITH PASSWORD 'password_user';
 # postgres=# GRANT ALL PRIVILEGES ON DATABASE database_nme TO database_user;
 # See this docs for more; https://goo.gl/9ONJKX
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -141,6 +139,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+"""
 
 
 # Password validation
@@ -165,8 +164,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Jakarta'
+LANGUAGE_CODE = 'zh-Hans'
+TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -176,14 +175,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    '/path/to/yourenv/blogproject/static',
+    #'/path/to/yourenv/blogproject/static',
 )
 
 STATIC_URL = '/static/'
 #STATIC_ROOT = '/path/to/yourenv/blogproject/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/path/to/yourenv/blogproject/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media") #'/path/to/yourenv/blogproject/media'
 
 # Editor Redactor
 import time
