@@ -114,11 +114,15 @@
       </li>
     </ul>
 
+	<!--
     {% load disqus_tags %}
     {% set_disqus_identifier "blogpost_" object.title %}
     {% set_disqus_title object.title %}
-    <!-- {% disqus_show_comments %} -->
+    {% disqus_show_comments %}
+	-->
     <!-- disqus_dev -->
+	
+	
   </div>
 
   <link rel="stylesheet" href="{% static 'assets/css/highlight.css' %}">
@@ -130,4 +134,11 @@
       });
     });
   </script>
+{% endblock %}
+
+{% block comments %}
+  <!-- UY BEGIN -->
+  <div id="uyan_frame"></div>
+  <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+  <!-- UY END -->
 {% endblock %}

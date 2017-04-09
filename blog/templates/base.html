@@ -91,7 +91,15 @@
       </div><!-- /.blog-sidebar -->
     </div><!-- /.row -->
   </div><!-- /.main__container -->
-
+  
+  <div class="container main__container">
+    <div class="row blog-main">
+      <div class="col-sm-8">
+        {% block comments %}{% endblock %}
+      </div>
+    </div>
+  </div>
+  
   <div class="blog-footer" id="non-printable">
     <p>
       Copyright &#169; 2016-{% now "Y" %}, <a href="{% url "homepage" %}">专注Web，移动和桌面设计与开发</a></p>
@@ -99,7 +107,7 @@
       <a href="#">Back to top</a>
     </p>
   </div>
-
+  
   <script src="{% static "assets/js/bootstrap.min.js" %}"></script>
 </body>
 </html>
