@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
 from blog.views import *
@@ -24,9 +25,10 @@ urlpatterns = [
 
     url(r'^$', HomepageView.as_view(), name='homepage'),
     url(r'^blog/(?P<slug>[\w\-]+)/$', DetailPostView.as_view(), name='detail_post_page'),
-    url(r'^search/$', SearchPostsView.as_view(), name='search_posts_page'),
+    url(r'^search/$', csrf_exempt(SearchPostsView.as_view()), name='search_posts_page'),
     url(r'^author/(?P<username>[\w\-]+)/$', AuthorPostsView.as_view(), name='author_posts_page'),
     url(r'^tag/(?P<slug>[\w\-]+)/$', TagPostsView.as_view(), name='tag_posts_page'),
+    url(r'^category/(?P<slug>[\w\-]+)/$', CategoryPostsView.as_view(), name='category_posts_page'),
 
     url(r'^feed/$', LatestPosts(), name="feed"),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': {'blog': GenericSitemap(

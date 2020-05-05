@@ -1,6 +1,12 @@
 {% extends "blog/blog_home.html" %}
-{% block title %}Posts under query {{ query }} - {{ block.super }}{% endblock %}
+{% block title %}查询：{{ query }} - {{ block.super }}{% endblock %}
 {% block canonical_url %}https://{{ request.get_host }}{% url 'search_posts_page' %}{% endblock %}
-{% block message_info_homepage %}
-  <p class="message__info">Post under query: <i>"{{ query }}"</i></p>
+
+{% block breadcrumb %}
+    <div class="breadcrumb">您的位置： <a itemprop="breadcrumb" href="/">首页</a> » 关键词：{{ query }} </span>
+    </div>
+{% endblock %}
+
+{% block content_title %}
+关键词: {{ query }}
 {% endblock %}

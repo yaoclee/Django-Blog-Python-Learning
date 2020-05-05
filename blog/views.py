@@ -57,6 +57,7 @@ class HomepageView(generic.ListView):
             self.paginate_by,
             self.request.GET.get('page')
         ).get_page_range()
+        #context_data['tags'] = Tag.objects.all()
         return context_data
 
 
@@ -146,7 +147,7 @@ class DetailPostView(generic.DetailView):
         related_posts = Post.objects.filter(
             tags__in=list(self.object.tags.all())
         ).exclude(id=self.object.id).distinct()
-        context_data['related_posts'] = related_posts[:5]  # limit for post
+        context_data['related_posts'] = related_posts[:10]  # limit for post
         context_data['get_client_ip'] = self.get_client_ip()
         context_data['visitor_counter'] = self.visitorCounter()
         return context_data
@@ -202,6 +203,27 @@ class AuthorPostsView(generic.ListView):
         ).get_page_range()
         return context_data
 
+class CategoryPostsView(generic.ListView):
+    template_name = 'blog/blog_posts_category.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        self.category = get_object_or_404(Category, slug=slug)
+        results_filter = Post.objects.published().filter(
+            category=self.category
+        ).order_by('-created').order_by('-id')
+        return results_filter
+
+    def get_context_data(self, **kwargs):
+        context_data = super(CategoryPostsView, self).get_context_data(**kwargs)
+        context_data['category'] = self.category
+        context_data['page_range'] = GenericPaginator(
+            self.get_queryset(),
+            self.paginate_by,
+            self.request.GET.get('page')
+        ).get_page_range()
+        return context_data
 
 class TagPostsView(generic.ListView):
     template_name = 'blog/blog_posts_tag.html'

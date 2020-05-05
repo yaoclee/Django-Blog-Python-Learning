@@ -34,6 +34,22 @@ class Author(models.Model):
         verbose_name = 'Detail Author'
         verbose_name_plural = 'Authors'
 
+class Category(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    priority = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def get_total_posts(self):
+        return Post.objects.filter(category__pk=self.pk).count()
+
+    class Meta:
+        verbose_name = 'Detail Category'
+        verbose_name_plural = "Categories"
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=200)
@@ -61,6 +77,7 @@ class Post(TimeStampedModel):
     author = models.ForeignKey(Author, related_name='author_post')
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    category = models.ForeignKey(Category, related_name='posts', null=True, blank=True)
     cover = models.ImageField(upload_to='gallery/covers/%Y/%m/%d',
                               null=True,
                               blank=True,

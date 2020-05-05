@@ -104,7 +104,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'blog.context_processors.tag_list',
+                'blog.context_processors.data_list', # passing category, tag objects.all() to all templates
             ],
         },
     },

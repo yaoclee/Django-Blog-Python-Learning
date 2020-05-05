@@ -1,6 +1,7 @@
 
-from blog.models import Tag
+from blog.models import Tag, Category
 
-def tag_list(request):
+def data_list(request):
+    categories = Category.objects.all()
     tags = Tag.objects.all()
-    return {"tags" : tags}
+    return {"tags" : tags, "categories" : categories}

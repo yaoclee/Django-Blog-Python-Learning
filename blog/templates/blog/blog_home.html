@@ -1,80 +1,118 @@
 {% extends "base.html" %}
-{% load staticfiles %}
 
+{% block title %}{{ block.super }}{% endblock %}
+		
 {% block content %}
-  {% block message_info_homepage %}{% endblock %}
 
-  {% for object in object_list %}
-    <div class="post">
-      <h2><a href="{% url 'detail_post_page' slug=object.slug %}">{{ object.title }}</a></h2>
-      <p class="meta">
-        By: <a href="{% url 'author_posts_page' username=object.author.user.username %}" style="text-transform:uppercase">{{ object.author }}</a> &#9679;
-        at {{ object.created }} &#9679;
-        Posted under:
-        {% for tag in object.tags.all %}
-          <a href="{% url 'tag_posts_page' slug=tag.slug %}">#{{ tag }}</a>{% if not forloop.last %}, {% endif %}
-        {% empty %}Uncategories
-        {% endfor %}
-      </p>
+{% block breadcrumb %} 
+{% endblock %} 
 
-      {% if object.cover %}
-        <div class="cst__cover__posts">
-          <a href="{% url 'detail_post_page' slug=object.slug %}">
-            <img style="width:100%" src="/media/{{ object.cover }}" alt="{{ object.title }}" title="{{ object.title }}">
-          </a>
-        </div>
-      {% endif %}
-      {{ object.description|safe|striptags|truncatewords:"50"|linebreaks }}
-      <span style="margin-bottom: .5em;float:right">
-        <a href="{% url 'detail_post_page' slug=object.slug %}">Read More &rarr;</a>
-      </span>
-      <div style="clear:both;border-bottom: 1px solid #F2F2F2;margin: 10px 0"></div>
+<!-- /文章列表 -->
+<div class="index-main clearfix">
+	
+    <div class="main-title">
+        <h4 class="post-left-title fl">{% block content_title %}最新文章{% endblock %}</h4>
+        <div class="fr"></div>
     </div>
-  {% empty %}
-    <p class="alert alert-warning text-center cst__radus"><span class="glyphicon glyphicon-info-sign"></span> Posts does not exist!</p>
-  {% endfor %}
+	
+    <div class="row">
+        
+        {% for object in object_list %}
+            <div class="article-box clearfix excerpt-1">
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <a href="{% url 'detail_post_page' slug=object.slug %}" title="{{ object.title }}">
+                            <img src="/media/{{ object.cover }}" srcset="/media/{{ object.cover }}" alt="{{ object.title }}" class="wp-post-image" width="240" height="160"></a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h2><a href="{% url 'detail_post_page' slug=object.slug %}" target="_blank" title="{{ object.title }}">{{ object.title }}</a></h2>
+                    <p class="txtcont hidden-xs"><a href="{% url 'detail_post_page' slug=object.slug %}" target="_blank" title="{{ object.title }}">
+                    {{ object.description|safe|striptags|truncatewords:"10" }} </a></p>
+                    <div class="meta">
+                        <!--span class="label label-info"><a href="list-1.html">Django</a></span-->
+                        {% for tag in object.tags.all %}
+                          <span class="label label-info"><a href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag }}</a></span>
+                        {% empty %}Uncategories
+                        {% endfor %}
+                        <time class="item"><i class="fa fa-clock-o"></i> {{ object.created }}</time>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+		
+		{% if is_paginated %}
+		<div class="pagination">
+			{% if request.GET.q %}
+			<ul>
+				<li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+				  <a {% if page_obj.has_previous %}href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}" aria-label="Previous" {% endif %}><span aria-hidden="true">&laquo;</span></a>
+				</li>
+				<li><a href="?q={{ query }}&amp;page=1">第一页</a></li>
+				{% for linkpage in page_range %}
+				{% ifequal linkpage page_obj.number %}
+				<li class="active">
+				  <a>{{ page_obj.number }}<span class="sr-only">(current)</span></a>
+				</li>
+				{% else %}
+				<li><a href="?q={{ query }}&amp;page={{ linkpage }}">{{ linkpage }}</a></li>
+				{% endifequal %}
+				{% endfor %}
+				<li><a href="?q={{ query }}&amp;page={{ page_obj.paginator.num_pages }}">最后一页</a></li>
+				<li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+				  <a {% if page_obj.has_next %}href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}" aria-label="Next" {% endif %}><span aria-hidden="true">&raquo;</span></a>
+				</li>
+			
+				<!--li class="prev-page"></li>
+				<li class="active"><span>1</span></li>
+				<li><a href="list-2-2.html">2</a></li>
+                <li class="next-page"><a href="list-2-2.html">下一页</a></li-->
+            </ul>
+			{% else %}
+			 <ul class="pagination">
+				<li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+				  <a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}" aria-label="Previous" {% endif %}><span aria-hidden="true">&laquo;</span></a>
+				</li>
+				<li><a href="?page=1">第一页</a></li>
+				{% for linkpage in page_range %}
+				{% ifequal linkpage page_obj.number %}
+				<li class="active">
+				  <a>{{ page_obj.number }}<span class="sr-only">(current)</span></a>
+				</li>
+				{% else %}
+				<li><a href="?page={{ linkpage }}">{{ linkpage }}</a></li>
+				{% endifequal %}
+				{% endfor %}
+				<li><a href="?page={{ page_obj.paginator.num_pages }}">最后一页</a></li>
+				<li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+				  <a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}" aria-label="Next" {% endif %}><span aria-hidden="true">&raquo;</span></a>
+				</li>
+			{% endif %}
+		</div>
+		{% endif %}
+        
+    </div>
 
-  {% if is_paginated %}
-    {% if request.GET.q %}
-      <ul class="pagination">
-        <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
-          <a {% if page_obj.has_previous %}href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}" aria-label="Previous" {% endif %}><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        <li><a href="?q={{ query }}&amp;page=1">First</a></li>
-        {% for linkpage in page_range %}
-        {% ifequal linkpage page_obj.number %}
-        <li class="active">
-          <a>{{ page_obj.number }}<span class="sr-only">(current)</span></a>
-        </li>
-        {% else %}
-        <li><a href="?q={{ query }}&amp;page={{ linkpage }}">{{ linkpage }}</a></li>
-        {% endifequal %}
-        {% endfor %}
-        <li><a href="?q={{ query }}&amp;page={{ page_obj.paginator.num_pages }}">Last</a></li>
-        <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
-          <a {% if page_obj.has_next %}href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}" aria-label="Next" {% endif %}><span aria-hidden="true">&raquo;</span></a>
-        </li>
-      </ul>
-    {% else %}
-      <ul class="pagination">
-        <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
-          <a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}" aria-label="Previous" {% endif %}><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        <li><a href="?page=1">First</a></li>
-        {% for linkpage in page_range %}
-        {% ifequal linkpage page_obj.number %}
-        <li class="active">
-          <a>{{ page_obj.number }}<span class="sr-only">(current)</span></a>
-        </li>
-        {% else %}
-        <li><a href="?page={{ linkpage }}">{{ linkpage }}</a></li>
-        {% endifequal %}
-        {% endfor %}
-        <li><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
-        <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
-          <a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}" aria-label="Next" {% endif %}><span aria-hidden="true">&raquo;</span></a>
-        </li>
-      </ul>
-    {% endif %}{# endif request.GET.q #}
-  {% endif %}
+</div>
+<!-- /文章列表 -->
+{% endblock %}
+
+<!-- friend_link only occurs on home page -->
+{% block friend_link %}
+  <div class="FriendLink hidden-xs clearfix">
+	<div class="title"><h3>友情链接：</h3></div>
+	<ul class="clears">
+		
+			<li><a href="index2.html" target="_blank">Django中文网</a></li>
+		
+			<li><a href="index2.html" target="_blank">Django</a></li>
+		
+			<li><a href="index4.html" target="_blank">Django教程</a></li>
+		
+			<li><a href="index3.html" target="_blank">Django社区</a></li>
+		
+			<li><a href="javascript:;" target="_blank">百度</a></li>
+		
+	</ul>
+  </div>
 {% endblock %}
