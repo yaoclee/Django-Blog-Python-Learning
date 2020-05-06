@@ -109,87 +109,33 @@
             <section class="widget post-right-item">
                 <h4 class="post-right-title">热门推荐</h4>
                 <ul class="post-hot clearfix">
-        
-                <li>
-                    <div class="img">
-                        <a href="show-3.html" title="手机端阅读类产品的信息架构">
-                            <img src="static/picture/wpress3.jpg" srcset="static/picture/wpress3.jpg" alt="手机端阅读类产品的信息架构" class="wp-post-image" width="120" height="80">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <a href="show-3.html" title="手机端阅读类产品的信息架构" target="_blank">手机端阅读类产品的信息架构</a>
-                    </div>
-                </li>
-            
-                <li>
-                    <div class="img">
-                        <a href="show-4.html" title="网站设计-不只是门面漂亮这么简单">
-                            <img src="static/picture/wpress4.jpg" srcset="static/picture/wpress4.jpg" alt="网站设计-不只是门面漂亮这么简单" class="wp-post-image" width="120" height="80">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <a href="show-4.html" title="网站设计-不只是门面漂亮这么简单" target="_blank">网站设计-不只是门面漂亮这么简单</a>
-                    </div>
-                </li>
-            
-                <li>
-                    <div class="img">
-                        <a href="show-6.html" title="社交网络应故意设计得“不够完善”">
-                            <img src="static/picture/wpress6.jpg" srcset="static/picture/wpress6.jpg" alt="社交网络应故意设计得“不够完善”" class="wp-post-image" width="120" height="80">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <a href="show-6.html" title="社交网络应故意设计得“不够完善”" target="_blank">社交网络应故意设计得“不够完善”</a>
-                    </div>
-                </li>
-            
-                <li>
-                    <div class="img">
-                        <a href="show-7.html" title="腾讯出品：制定设计的原则">
-                            <img src="static/picture/wpress7.jpg" srcset="static/picture/wpress7.jpg" alt="腾讯出品：制定设计的原则" class="wp-post-image" width="120" height="80">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <a href="show-7.html" title="腾讯出品：制定设计的原则" target="_blank">腾讯出品：制定设计的原则</a>
-                    </div>
-                </li>
-            
-                <li>
-                    <div class="img">
-                        <a href="show-9.html" title="用户体验设计-让你的牙膏盒使用更合理">
-                            <img src="static/picture/wpress9.jpg" srcset="static/picture/wpress9.jpg" alt="用户体验设计-让你的牙膏盒使用更合理" class="wp-post-image" width="120" height="80">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <a href="show-9.html" title="用户体验设计-让你的牙膏盒使用更合理" target="_blank">用户体验设计-让你的牙膏盒使用更合理</a>
-                    </div>
-                </li>
-            
-                <li>
-                    <div class="img">
-                        <a href="show-12.html" title="分享一个生成二维码的插件–QRCode.js">
-                            <img src="static/picture/wpress11.jpg" srcset="static/picture/wpress11.jpg" alt="分享一个生成二维码的插件–QRCode.js" class="wp-post-image" width="120" height="80">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <a href="show-12.html" title="分享一个生成二维码的插件–QRCode.js" target="_blank">分享一个生成二维码的插件–QRCode.js</a>
-                    </div>
-                </li>
-            
-        </ul>
-    </section>
 
-
-    <section class="widget post-right-item"><h4 class="post-right-title">所有标签</h4>
-        <div class="tags">
-        
-                {% for tag in tags %}
-                    <a href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag.title }}</a>
+                {% for post in hot_posts %}
+                    <li>
+                        <div class="img">
+                            <a href="{% url "detail_post_page" slug=post.slug %}" title="{{ post.title }}">
+                                <img src="/media/{{ post.cover }}" srcset="/media/{{ post.cover }}" alt="{{ post.title }}" class="wp-post-image" width="120" height="80">
+                            </a>
+                        </div>
+                        <div class="text">
+                            <a href="{% url "detail_post_page" slug=post.slug %}" title="{{ post.title }} target="_blank">{{ post.title }}</a>
+                        </div>
+                    </li>
                 {% endfor %}
+
+                </ul>
+            </section>
+
+        <section class="widget post-right-item"><h4 class="post-right-title">所有标签</h4>
+            <div class="tags">
             
-                <!-- a href="Python教程.html">Python教程</a-->        
-        </div>
-    </section>
+                    {% for tag in tags %}
+                        <a href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag.title }}</a>
+                    {% endfor %}
+                
+                    <!-- a href="Python教程.html">Python教程</a-->        
+            </div>
+        </section>
 
         <!-- /关注我们 -->
         <div class="post-right-item">

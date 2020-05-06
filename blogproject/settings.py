@@ -68,7 +68,7 @@ INSTALLED_APPS = [
 
 # Django Suit configuration
 SUIT_CONFIG = {
-    'ADMIN_NAME': '西门飘雪',
+    'ADMIN_NAME': u'乐伯职位分析',
     'SEARCH_URL': '/admin/blog/post/',
     'MENU': (
         {'app': 'blog', 'label': 'Blog', 'models': ('post', 'tag', 'page', 'author', 'gallery', 'visitor'),

@@ -33,7 +33,8 @@ class CategorySource(resources.ModelResource):
 class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = CategorySource
     list_display = ('title', 'slug', 'priority')
-    prepopulated_fields = {'slug' : ('title',)}
+    #prepopulated_fields = {'slug' : ('title',)}
+    exclude = ('slug',)
 
 #class CategoryAdminForm(forms.ModelForm):
 
@@ -47,7 +48,8 @@ class TagResource(resources.ModelResource):
 class TagAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TagResource
     list_display = ('title', 'slug')
-    prepopulated_fields = {'slug': ('title',)}
+    #prepopulated_fields = {'slug': ('title',)}
+    exclude = ('slug',)
 
 
 class TagAdminForm(forms.ModelForm):
@@ -96,7 +98,8 @@ class PostAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PostResource
     form = TagAdminForm
     list_display = ('title', 'author', 'created', 'modified', 'publish')
-    prepopulated_fields = {'slug': ('title',)}
+    exclude = ('slug',)
+    #prepopulated_fields = {'slug': ('title',)}
     search_fields = ['title', 'description', 'author__user__username']
     list_filter = ['publish', 'author__user__username', 'created']
     list_per_page = 20
@@ -111,7 +114,8 @@ class PageResource(resources.ModelResource):
 class PageAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PageResource
     list_display = ('title', 'author', 'created', 'modified', 'publish')
-    prepopulated_fields = {'slug': ('title',)}
+    #prepopulated_fields = {'slug': ('title',)}
+    exclude = ('slug',)
     search_fields = ['title', 'description', 'author__user__username']
     list_filter = ['publish', 'author__user__username', 'created']
     list_per_page = 20

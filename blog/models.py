@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from redactor.fields import RedactorField
+from uuslug import slugify
 
 
 class TimeStampedModel(models.Model):
@@ -42,6 +43,11 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
+
+
     @property
     def get_total_posts(self):
         return Post.objects.filter(category__pk=self.pk).count()
@@ -57,6 +63,10 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Tag, self).save(*args, **kwargs)
 
     @property
     def get_total_posts(self):
@@ -75,8 +85,8 @@ class PostQuerySet(models.QuerySet):
 
 class Post(TimeStampedModel):
     author = models.ForeignKey(Author, related_name='author_post')
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     category = models.ForeignKey(Category, related_name='posts', null=True, blank=True)
     cover = models.ImageField(upload_to='gallery/covers/%Y/%m/%d',
                               null=True,
@@ -87,6 +97,7 @@ class Post(TimeStampedModel):
     keywords = models.CharField(max_length=200, null=True, blank=True,
                                 help_text='Keywords sparate by comma.')
     meta_description = models.TextField(null=True, blank=True)
+    hot_rec = models.BooleanField(default=False)
 
     publish = models.BooleanField(default=True)
     objects = PostQuerySet.as_manager()
@@ -100,6 +111,10 @@ class Post(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Detail Post'
@@ -116,6 +131,10 @@ class Page(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Page, self).save(*args, **kwargs)
 
     # this will be an error in /admin
     # def get_absolute_url(self):
