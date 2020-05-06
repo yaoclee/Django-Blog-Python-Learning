@@ -15,7 +15,7 @@
             <div class="article-meta">
                 <span class="item">分类：<a href="{% url 'category_posts_page' slug=object.category.slug %}">{{ object.category.title }}</a></span>
                 <span class="item">作者：{{ object.author }}</span>
-                <span class="item">浏览：{{ visitor_counter }}</span>
+                <span class="item">浏览：{{ object.visited_num }}</span>
                 <span class="item">{{ object.created }}</span>
             </div>
             

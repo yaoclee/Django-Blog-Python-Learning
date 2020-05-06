@@ -100,6 +100,9 @@ class DetailPostView(generic.DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
+        obj.visited_num = obj.visited_num + 1
+        obj.save(update_fields=["visited_num"])
+
         if obj.publish == False:
             if request.user.is_anonymous() or \
                     request.user != obj.author.user:

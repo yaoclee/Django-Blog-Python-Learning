@@ -35,7 +35,7 @@
                           <span class="label label-info"><a href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag }}</a></span>
                         {% empty %}Uncategories
                         {% endfor %}
-                        <time class="item"><i class="fa fa-clock-o"></i> {{ object.created }}</time>
+                        <time class="item"><i class="fa fa-clock-o"></i> {{ object.created|date:"Y-m-d" }}</time>
                     </div>
                 </div>
             </div>

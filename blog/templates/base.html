@@ -79,38 +79,30 @@
 
         <!-- /post-right -->
         <aside class="post-right hidden-xs">
-            <section class="widget post-right-item">
-                <h4 class="post-right-title">热门文章排行</h4>
-                <ol class="hot-list">
-                    
-                    <li><a href="show-11.html" title="Windows node版本管理器–nvm">Windows node版本管理器–nvm</a></li>
-                    
-                    <li><a href="show-13.html" title="完美快速解决百度分享不支持HTTPS的问题">完美快速解决百度分享不支持HTTPS的问题</a></li>
-                    
-                    <li><a href="show-6.html" title="社交网络应故意设计得“不够完善”">社交网络应故意设计得“不够完善”</a></li>
-                    
-                    <li><a href="show-9.html" title="用户体验设计-让你的牙膏盒使用更合理">用户体验设计-让你的牙膏盒使用更合理</a></li>
-                    
-                    <li><a href="show-14.html" title="JS判断单、多张图片加载完成">JS判断单、多张图片加载完成</a></li>
-                    
-                    <li><a href="show-5.html" title="谷歌用户体验设计准则">谷歌用户体验设计准则</a></li>
-                    
-                    <li><a href="show-8.html" title="30个别出心裁的WordPress设计">30个别出心裁的WordPress设计</a></li>
-                    
-                    <li><a href="show-4.html" title="网站设计-不只是门面漂亮这么简单">网站设计-不只是门面漂亮这么简单</a></li>
-                    
-                    <li><a href="show-3.html" title="手机端阅读类产品的信息架构">手机端阅读类产品的信息架构</a></li>
-                    
-                    <li><a href="show-12.html" title="分享一个生成二维码的插件–QRCode.js">分享一个生成二维码的插件–QRCode.js</a></li>
-                    
-                </ol>
-            </section>
-            
+
+            <!-- /关注我们 -->
+            <div class="post-right-item">
+                <h4 class="post-right-title">关注我们</h4>
+                <div class="wid-about">
+                    <p>关注IT互联网职位动态、挖掘市场职位数据，欢迎关注公众号！</p>
+                    <img src="/media/logo/wechat.jpg" alt="微信二维码" width="160" height="160">
+                </div>
+                <div class="wid-about">
+                    <p><font color="blue">找工作、信息咨询，请添加微信！</font></p>
+                    <img src="/media/logo/wechat.jpg" alt="微信二维码" width="160" height="160">
+                </div>
+                <!--div class="wid-about">
+                    <p><strong>联系方式:</strong></p>
+                    <p>QQ:</p>
+                    <p>Email：</p>
+                </div-->
+            </div>
+
             <section class="widget post-right-item">
                 <h4 class="post-right-title">热门推荐</h4>
                 <ul class="post-hot clearfix">
 
-                {% for post in hot_posts %}
+                {% for post in hot_rec_posts %}
                     <li>
                         <div class="img">
                             <a href="{% url "detail_post_page" slug=post.slug %}" title="{{ post.title }}">
@@ -126,32 +118,28 @@
                 </ul>
             </section>
 
-        <section class="widget post-right-item"><h4 class="post-right-title">所有标签</h4>
-            <div class="tags">
-            
-                    {% for tag in tags %}
-                        <a href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag.title }}</a>
-                    {% endfor %}
-                
-                    <!-- a href="Python教程.html">Python教程</a-->        
-            </div>
-        </section>
+            <section class="widget post-right-item">
+                    <h4 class="post-right-title">热门文章排行</h4>
+                    <ol class="hot-list">
+                        {% for post in hot_rank_posts %}
+                            <li><a href="{% url "detail_post_page" slug=post.slug %}" title="{{ post.title }}">{{ post.title }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </section>
 
-        <!-- /关注我们 -->
-        <div class="post-right-item">
-            <h4 class="post-right-title">关注我们</h4>
-            <div class="wid-about">
-                <p>拓普Python学院，欢迎关注！</p>
-                <img src="static/picture/weixinqr.jpg" alt="微信二维码" width="160" height="160">
-            </div>
-            <div class="wid-about">
-                <p><strong>联系方式:</strong></p>
-                <p>QQ:445813</p>
-                <p>Email：445813@qq.com</p>
-            </div>
-        </div>
+            <section class="widget post-right-item"><h4 class="post-right-title">所有标签</h4>
+                <div class="tags">
+                
+                        {% for tag in tags %}
+                            <a href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag.title }}</a>
+                        {% endfor %}
+                    
+                        <!-- a href="Python教程.html">Python教程</a-->        
+                </div>
+            </section>
+
         </aside>
-		
+
         {% block friend_link %}{% endblock %}
       
     </div>

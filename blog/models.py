@@ -98,6 +98,7 @@ class Post(TimeStampedModel):
                                 help_text='Keywords sparate by comma.')
     meta_description = models.TextField(null=True, blank=True)
     hot_rec = models.BooleanField(default=False)
+    visited_num = models.IntegerField(default=0)
 
     publish = models.BooleanField(default=True)
     objects = PostQuerySet.as_manager()
